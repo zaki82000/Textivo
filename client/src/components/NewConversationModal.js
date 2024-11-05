@@ -10,7 +10,6 @@ export default function NewConversationModal({ closeModal }) {
 
   function handleSubmit(e) {
     e.preventDefault()
-
     createConversation(selectedContactIds)
     closeModal()
   }
@@ -18,9 +17,7 @@ export default function NewConversationModal({ closeModal }) {
   function handleCheckboxChange(contactId) {
     setSelectedContactIds(prevSelectedContactIds => {
       if (prevSelectedContactIds.includes(contactId)) {
-        return prevSelectedContactIds.filter(prevId => {
-          return contactId !== prevId
-        })
+        return prevSelectedContactIds.filter(prevId => prevId !== contactId)
       } else {
         return [...prevSelectedContactIds, contactId]
       }
@@ -29,9 +26,11 @@ export default function NewConversationModal({ closeModal }) {
 
   return (
     <>
-      <Modal.Header closeButton>Create Conversation</Modal.Header>
+      <Modal.Header closeButton style={{ borderBottom: '2px solid #007bff' }}>
+        <Modal.Title style={{ fontWeight: 'bold', color: '#007bff' }}>Create Conversation</Modal.Title>
+      </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit} style={{ padding: '10px' }}>
           {contacts.map(contact => (
             <Form.Group controlId={contact.id} key={contact.id}>
               <Form.Check
@@ -39,10 +38,11 @@ export default function NewConversationModal({ closeModal }) {
                 value={selectedContactIds.includes(contact.id)}
                 label={contact.name}
                 onChange={() => handleCheckboxChange(contact.id)}
+                style={{ marginBottom: '10px' }}
               />
             </Form.Group>
           ))}
-          <Button type="submit">Create</Button>
+          <Button type="submit" style={{ backgroundColor: '#007bff', border: 'none', borderRadius: '20px', padding: '10px 20px', marginTop: '10px' }}>Create</Button>
         </Form>
       </Modal.Body>
     </>
