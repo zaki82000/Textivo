@@ -1,24 +1,33 @@
-import React, { useState } from 'react'
-import { Tab, Nav, Button, Modal } from 'react-bootstrap'
-import Conversations from './Conversations'
-import Contacts from './Contacts'
-import NewContactModal from './NewContactModal'
-import NewConversationModal from './NewConversationModal'
+import React, { useState } from 'react';
+import { Tab, Nav, Button, Modal } from 'react-bootstrap';
+import Conversations from './Conversations';
+import Contacts from './Contacts';
+import NewContactModal from './NewContactModal';
+import NewConversationModal from './NewConversationModal';
 
-const CONVERSATIONS_KEY = 'conversations'
-const CONTACTS_KEY = 'contacts'
+const CONVERSATIONS_KEY = 'conversations';
+const CONTACTS_KEY = 'contacts';
 
 export default function Sidebar({ id }) {
-  const [activeKey, setActiveKey] = useState(CONVERSATIONS_KEY)
-  const [modalOpen, setModalOpen] = useState(false)
-  const conversationsOpen = activeKey === CONVERSATIONS_KEY
+  const [activeKey, setActiveKey] = useState(CONVERSATIONS_KEY);
+  const [modalOpen, setModalOpen] = useState(false);
+  const conversationsOpen = activeKey === CONVERSATIONS_KEY;
   
   function closeModal() {
-    setModalOpen(false)
+    setModalOpen(false);
   }
 
   return (
-    <div style={{ width: '250px' }} className="d-flex flex-column">
+    <div style={{
+      border: '2px solid #007bff', // تعديل الإطار الأزرق
+      borderRadius: '10px', // زوايا مستديرة أكثر جاذبية
+      padding: '10px', // مساحة داخلية
+      width: '300px', // توسيع العرض
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100vh',
+      backgroundColor: '#f8f9fa' // خلفية الشريط الجانبي
+    }}>
       <Tab.Container activeKey={activeKey} onSelect={setActiveKey}>
         <Nav variant="tabs" className="justify-content-center">
           <Nav.Item>
@@ -36,13 +45,16 @@ export default function Sidebar({ id }) {
             <Contacts />
           </Tab.Pane>
         </Tab.Content>
+      </Tab.Container>
+
+      <div style={{ marginTop: 'auto' }}>
         <div className="p-2 border-top border-right small">
           Your Id: <span className="text-muted">{id}</span>
         </div>
-        <Button onClick={() => setModalOpen(true)} className="rounded-0">
+        <Button onClick={() => setModalOpen(true)} className="rounded-0 w-100 mt-2">
           New {conversationsOpen ? 'Conversation' : 'Contact'}
         </Button>
-      </Tab.Container>
+      </div>
 
       <Modal show={modalOpen} onHide={closeModal}>
         {conversationsOpen ?
@@ -51,5 +63,5 @@ export default function Sidebar({ id }) {
         }
       </Modal>
     </div>
-  )
+  );
 }
